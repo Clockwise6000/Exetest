@@ -1,6 +1,5 @@
 <luaScript>
     <code><![CDATA[
         print("working script :3")
-        game.Workspace["2009AMC"]:BreakJoints()
     ]]></code>
 </luaScript>
