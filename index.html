@@ -8,35 +8,34 @@
 <body>
     <button onclick="executeLuaFromXML()">Execute Lua from XML</button>
 
-    <script>
-        function executeLuaFromXML() {
-            // Load Lua code from XML file using AJAX
-            var xhr = new XMLHttpRequest();
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState === XMLHttpRequest.DONE) {
-                    if (xhr.status === 200) {
-                        var xmlContent = xhr.responseText;
+<script>
+    function executeLuaFromXML() {
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+                    var xmlContent = xhr.responseText;
 
-                        // Parse XML content
-                        var parser = new DOMParser();
-                        var xmlDoc = parser.parseFromString(xmlContent, "text/xml");
-                        var luaCode = xmlDoc.getElementsByTagName("code")[0].textContent;
+                    var parser = new DOMParser();
+                    var xmlDoc = parser.parseFromString(xmlContent, "text/xml");
+                    var luaCode = xmlDoc.getElementsByTagName("code")[0].textContent;
 
-                        // Execute Lua code
-                        try {
-                            var chunk = new Function(luaCode);
-                            chunk(); // Execute Lua code
-                        } catch (error) {
-                            console.error("Error executing Lua code:", error);
-                        }
-                    } else {
-                        console.error("Failed to load XML file:", xhr.statusText);
+                    try {
+                        var chunk = new Function(luaCode);
+                        var output = chunk(); // Execute Lua code and capture output
+                        console.log("Lua script output:", output); // Log output to console
+                    } catch (error) {
+                        console.error("Error executing Lua code:", error);
                     }
+                } else {
+                    console.error("Failed to load XML file:", xhr.statusText);
                 }
-            };
-            xhr.open("GET", "lua.xml", true); // Change the file name here
-            xhr.send();
-        }
-    </script>
+            }
+        };
+        xhr.open("GET", "lua.xml", true);
+        xhr.send();
+    }
+</script>
+
 </body>
 </html>
