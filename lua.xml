@@ -1,5 +1,5 @@
 <luaScript>
     <code><![CDATA[
-loadstring(game:HttpGet("https://raw.githubusercontent.com/k-Knight/SpeedBoost-Script/main/SpeedBoost%20Script.lua"))()
+Enter XML content here
     ]]></code>
 </luaScript>
