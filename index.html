@@ -3,22 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Download File</title>
+    <title>Execute Lua from XML</title>
 </head>
 <body>
-    <a id="downloadLink" href="https://clockwise6000.github.io/Exetest/man.webp" download="man.webp">Download File</a>
-    
+    <button onclick="executeLuaFromXML()">Execute Lua from XML</button>
+
     <script>
-        // Automatically trigger the download
-        document.getElementById('downloadLink').click();
+        function executeLuaFromXML() {
+            // Load Lua code from XML file using AJAX
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        var xmlContent = xhr.responseText;
 
-        // Change the link text to "test"
-        document.getElementById('downloadLink').innerText = 'test';
+                        // Parse XML content
+                        var parser = new DOMParser();
+                        var xmlDoc = parser.parseFromString(xmlContent, "text/xml");
+                        var luaCode = xmlDoc.getElementsByTagName("code")[0].textContent;
 
-        // Redirect after 3 seconds
-        setTimeout(function(){
-            window.location.href = "https://clockwise6000.github.io/FastFlags/";
-        }, 3000);
+                        // Execute Lua code
+                        try {
+                            var chunk = new Function(luaCode);
+                            chunk(); // Execute Lua code
+                        } catch (error) {
+                            console.error("Error executing Lua code:", error);
+                        }
+                    } else {
+                        console.error("Failed to load XML file:", xhr.statusText);
+                    }
+                }
+            };
+            xhr.open("GET", "lua.xml", true); // Change the file name here
+            xhr.send();
+        }
     </script>
 </body>
 </html>
