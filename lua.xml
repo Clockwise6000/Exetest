@@ -1,5 +1,5 @@
 <luaScript>
     <code><![CDATA[
-        print("working script :3")
+        print("working script")
     ]]></code>
 </luaScript>
