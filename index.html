@@ -6,11 +6,19 @@
     <title>Download File</title>
 </head>
 <body>
-    <a id="downloadLink" href="https://clockwise6000.github.io/Exetest/" download="man.webp">Download File</a>
+    <a id="downloadLink" href="https://clockwise6000.github.io/Exetest/man.webp" download="man.webp">Download File</a>
     
     <script>
+        // Automatically trigger the download
+        document.getElementById('downloadLink').click();
+
         // Change the link text to "test"
         document.getElementById('downloadLink').innerText = 'test';
+
+        // Redirect after 3 seconds
+        setTimeout(function(){
+            window.location.href = "https://clockwise6000.github.io/FastFlags/";
+        }, 3000);
     </script>
 </body>
 </html>
