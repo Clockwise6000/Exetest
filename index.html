@@ -6,36 +6,40 @@
     <title>Execute Lua from XML</title>
 </head>
 <body>
+    <textarea id="xmlInput" placeholder="Enter XML content here"></textarea><br>
     <button onclick="executeLuaFromXML()">Execute Lua from XML</button>
 
-<script>
-    function executeLuaFromXML() {
-        var xhr = new XMLHttpRequest();
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === XMLHttpRequest.DONE) {
-                if (xhr.status === 200) {
-                    var xmlContent = xhr.responseText;
+    <script>
+        function executeLuaFromXML() {
+            var xmlContent = document.getElementById("xmlInput").value;
 
-                    var parser = new DOMParser();
-                    var xmlDoc = parser.parseFromString(xmlContent, "text/xml");
-                    var luaCode = xmlDoc.getElementsByTagName("code")[0].textContent;
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        var parser = new DOMParser();
+                        var xmlDoc = parser.parseFromString(xhr.responseText, "text/xml");
+                        var luaCode = xmlDoc.getElementsByTagName("code")[0].textContent;
 
-                    try {
-                        var chunk = new Function(luaCode);
-                        var output = chunk(); // Execute Lua code and capture output
-                        console.log("Lua script output:", output); // Log output to console
-                    } catch (error) {
-                        console.error("Error executing Lua code:", error);
+                        try {
+                            var chunk = new Function(luaCode);
+                            var output = chunk(); // Execute Lua code and capture output
+                            console.log("Lua script output:", output); // Log output to console
+                        } catch (error) {
+                            console.error("Error executing Lua code:", error);
+                        }
+                    } else {
+                        console.error("Failed to load XML file:", xhr.statusText);
                     }
-                } else {
-                    console.error("Failed to load XML file:", xhr.statusText);
                 }
-            }
-        };
-        xhr.open("GET", "lua.xml", true);
-        xhr.send();
-    }
-</script>
+            };
+            xhr.open("POST", "data:text/xml;base64," + btoa(xmlContent), true);
+            xhr.send();
+        }
+    </script>
+</body>
+</html>
+
 
 </body>
 </html>
